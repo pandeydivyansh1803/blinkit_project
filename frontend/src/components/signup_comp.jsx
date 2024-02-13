@@ -26,8 +26,14 @@ export default function SignupComp() {
       <br></br>
       <br></br>
       <button onClick={()=>{
-        axios.post("http://localhost:5173/signup" ,{name,email,password}).then((res)=>{
-          navigate('/login')
+        axios.post("http://localhost:3000/signup" ,{name,email,password}).then((res)=>{
+          if(res.success===true){
+
+            navigate('/login')
+          }
+          else{
+            navigate('/signup')
+          }
         })
       }}>Submit</button>
     </div>

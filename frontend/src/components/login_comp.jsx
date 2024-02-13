@@ -21,8 +21,9 @@ export default function LoginComp() {
       <br></br>
       <br></br>
       <button onClick={()=>{
-        axios.post("http://localhost:5173/signup" ,{name,email,password}).then((res)=>{
+        axios.post("http://localhost:3000/login" ,{name,email,password}).then((res)=>{
           if(res.success===true){
+              localStorage.setItem("token",res.token);
               navigate('/upload')
           }else{
             navigate('/login')
