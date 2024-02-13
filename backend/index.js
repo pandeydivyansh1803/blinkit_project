@@ -62,22 +62,49 @@ app.post('/login',(req,res)=>{
 })
 
 
+// const storage = multer.diskStorage({
+//     destination: (req,file,cb)=>{
+//         cb(null,'/public/Images')
+//     },
+//     filename : (req,file,cb)=>{
+//         cb(null,file.fieldname+"_"+Date.now()+path.extname(file.originalname))
+//     }
+// })
+
+// const upload = multer({
+//     storage:storage
+// })
+// app.post('/upload',(req,res)=>{
+    
+// })
+
+//Upload files 
 const storage = multer.diskStorage({
     destination: (req,file,cb)=>{
-        cb(null,'/public/Images')
+        cb(null,'public/Images')
     },
-    filename : (req,file,cb)=>{
-        cb(null,file.fieldname+"_"+Date.now()+path.extname(file.originalname))
+    filename: (req,file,cb)=>{
+        cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
     }
 })
-
 const upload = multer({
-    storage:storage
-})
-app.post('/upload',(req,res)=>{
-    
+    storage: storage,
 })
 
+app.post('/upload',upload.single('file'),(req,res)=>{
+    user.create({image: req.file.filename})
+    .then(result => res.json(result))
+    .catch(err => console.log(err))
+})
+
+app.get('/getImage',(req,res)=>{
+    user.find()
+    .then(users => {
+        console.log(users);
+        res.json(users)
+    })
+    .catch(err => res.json(err))
+})
 app.listen(3000,()=>{
     console.log('server running on port 3000');
 })
