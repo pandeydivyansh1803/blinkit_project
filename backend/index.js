@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const jwtPassword = "abcd1234";
 const user = require('./dbSchemas/user')
 const cors = require("cors")
+const multer = require('multer')
+const path = require('path')
+
 
 
 app.use(express.json());
@@ -59,8 +62,21 @@ app.post('/login',(req,res)=>{
 })
 
 
+const storage = multer.diskStorage({
+    destination: (req,file,cb)=>{
+        cb(null,'/public/Images')
+    },
+    filename : (req,file,cb)=>{
+        cb(null,file.fieldname+"_"+Date.now()+path.extname(file.originalname))
+    }
+})
 
-
+const upload = multer({
+    storage:storage
+})
+app.post('/upload',(req,res)=>{
+    
+})
 
 app.listen(3000,()=>{
     console.log('server running on port 3000');

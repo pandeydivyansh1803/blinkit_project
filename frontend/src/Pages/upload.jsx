@@ -1,7 +1,11 @@
 import React from 'react'
+import UploadComp from '../components/upload_comp'
+
 
 export default function Upload() {
   return (
-    <div>upload</div>
+    <div>
+      <UploadComp></UploadComp>
+    </div>
   )
 }
